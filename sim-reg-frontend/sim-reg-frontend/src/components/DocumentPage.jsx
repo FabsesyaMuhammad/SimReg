@@ -19,7 +19,7 @@ const DocumentPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:9401/documents/submit', formData);
+      const response = await axios.post('http://localhost:9401/document/requests', formData);
       if (response.status === 200) {
         alert('Document submitted successfully');
       } else {

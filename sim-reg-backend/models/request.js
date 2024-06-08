@@ -38,8 +38,22 @@ const addRequest = async (nik, polres_id, document_id) => {
     }
 };
 
+// Menghapus request
+const deleteRequest = async (request_id) => {
+    try {
+        const result = await pool.query(
+            'DELETE FROM request WHERE request_id = $1',
+            [request_id]
+        );
+    } catch (error) {
+        console.error('Error deleting request:', error);
+        throw error;
+    }
+};
+
 module.exports = {
     getAllRequests,
     updateRequestStatus,
-    addRequest
+    addRequest,
+    deleteRequest
 }

@@ -1,5 +1,5 @@
 const { createUser } = require("../models/user.js");
-const { addRequest } = require("../models/request");
+const { addRequest, deleteRequest } = require("../models/request");
 const bcrypt = require("bcryptjs");
 const { pool } = require("../config/db.config.js");
 
@@ -31,7 +31,7 @@ async function createUserController(req, res) {
       place_of_birth,
       gender,
     });
-    res.status(200).json({ message: "User created successfully" });
+    res.status(201).json({ message: "User created successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -53,7 +53,7 @@ async function loginUserController(req, res) {
 
       if (validPassword) {
         return res
-          .status(200)
+          .status(201)
           .json({ message: "Admin login successful", role: "admin" });
       }
     }
@@ -81,21 +81,42 @@ async function loginUserController(req, res) {
   }
 }
 
-// Buat request baru
-const createNewRequest = async (req, res) => {
-  const { nik, polres_id, document_id } = req.body;
+const deleteUserRequest = async (req, res) => {
+  const { request_id } = req.body;
 
   try {
-    const newReq = await addRequest(nik, polres_id, document_id);
-    res.status(201).json(newReq);
+    const deletedReq = await deleteRequest(request_id);
+    res.status(201).json(deletedReq);
   } catch (error) {
-    console.error("Error creating new request:", error);
+    console.error("Error deleting your request:", error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const getPolres = async (req, res) => {
+  try {
+    const result = await pool.query(`SELECT * FROM polres`);
+
+    return res.status(200).json(result.rows);
+  } catch (err) {
+    return res.statu(500).json(err);
+  }
+};
+
+const getAddress = async (req, res) => {
+  try {
+    const result = await pool.query(`SELECT * FROM address`);
+
+    return res.status(201).json(result.rows);
+  } catch (err) {
+    return res.statu(500).json(err);
   }
 };
 
 module.exports = {
   createUserController,
   loginUserController,
-  createNewRequest,
+  deleteUserRequest,
+  getPolres,
+  getAddress,
 };

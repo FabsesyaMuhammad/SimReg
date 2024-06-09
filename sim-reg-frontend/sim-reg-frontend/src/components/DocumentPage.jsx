@@ -1,33 +1,36 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import axios from "axios";
+import React, { useState } from "react";
 
 const DocumentPage = () => {
   const [formData, setFormData] = useState({
-    nik: '',
-    polres_id: '',
-    document_id: ''
+    nik: "",
+    polres_id: "",
+    document_id: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:9401/document/requests', formData);
-      if (response.status === 200) {
-        alert('Document submitted successfully');
+      const response = await axios.post(
+        "http://localhost:9401/document/requests",
+        formData
+      );
+      if (response.status === 201) {
+        alert("Document submitted successfully");
       } else {
-        alert('Failed to submit document');
+        alert("Failed to submit document");
       }
     } catch (error) {
       console.error(error);
-      alert('Error submitting document');
+      alert("Error submitting document");
     }
   };
 
@@ -37,7 +40,9 @@ const DocumentPage = () => {
         <h2 className="text-2xl font-bold mb-6 text-center">Submit Document</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2" htmlFor="nik">NIK</label>
+            <label className="block text-gray-700 mb-2" htmlFor="nik">
+              NIK
+            </label>
             <input
               type="text"
               id="nik"
@@ -49,7 +54,9 @@ const DocumentPage = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2" htmlFor="polres_id">Polres ID</label>
+            <label className="block text-gray-700 mb-2" htmlFor="polres_id">
+              Polres ID
+            </label>
             <input
               type="text"
               id="polres_id"
@@ -61,7 +68,9 @@ const DocumentPage = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-2" htmlFor="document_id">Document ID</label>
+            <label className="block text-gray-700 mb-2" htmlFor="document_id">
+              Document ID
+            </label>
             <input
               type="text"
               id="document_id"

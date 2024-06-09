@@ -16,8 +16,15 @@ const LoginPage = () => {
       });
 
       if (response.status === 200) {
+        localStorage.setItem("loggedAccount", username);
         alert("Login Success");
-        navigate("/");
+        navigate("/auth");
+      }
+
+      if (response.status === 201) {
+        localStorage.setItem("loggedAccount", username);
+        alert("Login Success");
+        navigate("/admin");
       }
     } catch (error) {
       console.error(error);
@@ -29,11 +36,13 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-        <form onSubmit={handleLogin}>
-          <div className="mb-4">
+    <div className="min-h-screen bg-gradient-to-r from-red-50 to-white flex items-center justify-center">
+      <div className="bg-white p-8 rounded shadow-md max-w-md w-full">
+        <h2 className="text-2xl font-bold mb-6 text-center text-red-600">
+          Login
+        </h2>
+        <form onSubmit={handleLogin} className="space-y-4">
+          <div>
             <label className="block text-gray-700 mb-2" htmlFor="username">
               Username
             </label>
@@ -42,11 +51,11 @@ const LoginPage = () => {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300"
+              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-red-400"
               required
             />
           </div>
-          <div className="mb-6">
+          <div>
             <label className="block text-gray-700 mb-2" htmlFor="password">
               Password
             </label>
@@ -55,13 +64,13 @@ const LoginPage = () => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300"
+              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-red-400"
               required
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+            className="w-full bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 focus:outline-none focus:bg-red-600"
           >
             Login
           </button>
@@ -70,7 +79,7 @@ const LoginPage = () => {
           <span className="text-gray-700">Don't Have an Account Yet?</span>
           <Link
             to="/auth/register"
-            className="ml-2 text-blue-500 hover:underline"
+            className="ml-2 text-red-500 hover:underline"
           >
             Register Here
           </Link>

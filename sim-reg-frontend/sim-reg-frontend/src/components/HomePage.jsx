@@ -1,38 +1,85 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaSignInAlt, FaFileUpload, FaListAlt } from 'react-icons/fa';
+import uploadIcon from '../assets/upload.png';
+import requestsIcon from '../assets/sched.jpg';
 
 const HomePage = () => {
+  const loggedAccount = localStorage.getItem('loggedAccount');
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('loggedAccount');
+    navigate('/');
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-blue-500 text-white py-4">
-        <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Home Page</h1>
-          <Link
-            to="/auth/login"
-            className="bg-white text-blue-500 py-2 px-4 rounded hover:bg-gray-200 focus:outline-none focus:bg-gray-200 mr-14"
-          >
-            Login
-          </Link>
+    <div className="min-h-screen bg-gradient-to-r from-red-50 to-white-200">
+      <header className="bg-gradient-to-r from-red-600 to-red-500 text-white py-4 shadow-lg">
+        <div className="container mx-auto flex justify-between items-center px-4">
+          <h1 className="text-3xl font-bold">Driving License Registration</h1>
+          <div className="flex items-center">
+            {loggedAccount ? (
+              <div className="flex items-center">
+                <p className="mr-4">{loggedAccount}</p>
+                <button
+                  onClick={handleLogout}
+                  className="bg-white text-red-600 py-2 px-4 rounded hover:bg-gray-100 focus:outline-none focus:bg-gray-200 flex items-center"
+                >
+                  <FaSignInAlt className="mr-2" />
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/auth/login"
+                className="bg-white text-red-600 py-2 px-4 rounded hover:bg-gray-100 focus:outline-none focus:bg-gray-200 flex items-center"
+              >
+                <FaSignInAlt className="mr-2" />
+                Login
+              </Link>
+            )}
+          </div>
         </div>
       </header>
-      <div className="container mx-auto py-20">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold mb-6">Welcome to the Home Page</h2>
-          <p className="text-gray-700 mb-4">This is the main landing page of your application.</p>
-          <p className="text-gray-700 mb-8">Use the login button in the header to access your account.</p>
-          <div className="flex flex-wrap justify-center gap-8">
-            <Link
-              to="/auth/document"
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-40 text-center"
-            >
-              Documents
-            </Link>
-            <Link
-              to="/auth/upload-document"
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-40 text-center"
-            >
-              Upload
-            </Link>
+      <div className="container mx-auto py-20 px-4">
+        <div className="flex flex-col items-center">
+          <div className="mb-12 text-center">
+            <h2 className="text-4xl font-bold mb-6 text-gray-800">Upload</h2>
+            <p className="text-gray-600 mb-4">
+              Your gateway to easy driving license registration. Use the options Upload to upload your documents and
+              proceed with your registration. Use the options List to see the status of your request.
+            </p>
+          </div>
+          <div className="flex flex-col md:flex-row gap-8 md:w-full justify-center">
+            <div className="flex flex-col items-center">
+              <img
+                src={requestsIcon}
+                alt="License Registration"
+                className="w-full h-64 object-cover rounded-lg bg-white border-2 border-gray"
+              />
+              <Link
+                to="/auth/requests"
+                className="bg-red-500 text-white py-4 px-8 rounded-lg hover:bg-red-600 focus:outline-none focus:bg-red-700 flex items-center shadow-lg transform transition duration-300 hover:scale-105"
+              >
+                <FaListAlt className="mr-2" />
+                List
+              </Link>
+            </div>
+            <div className="flex flex-col items-center">
+              <img
+                src={uploadIcon}
+                alt="License Registration"
+                className="w-full h-64 object-cover rounded-lg bg-white border-2 border-gray"
+              />
+              <Link
+                to="/auth/upload-document"
+                className="bg-red-500 text-white py-4 px-8 rounded-lg hover:bg-red-600 focus:outline-none focus:bg-red-700 flex items-center shadow-lg transform transition duration-300 hover:scale-105"
+              >
+                <FaFileUpload className="mr-2" />
+                Upload
+              </Link>
+            </div>
           </div>
         </div>
       </div>
